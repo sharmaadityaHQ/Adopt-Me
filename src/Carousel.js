@@ -7,7 +7,10 @@ class Carousel extends React.Component {
   };
 
   // this takes in a set of properties and does some filtering on them and
-  // passes them on to the component
+  // passes them on to the component.Is invoked right before calling the
+  //  render method, both on the initial mount and on subsequent updates.
+  //  It should return an object to update the state, or null to update nothing.
+  // It is invoked right before calling the render method, both on the initial mount and on subsequent updates.
   static getDerivedStateFromProps({ media }) {
     let photos = ["http://placecorgi.com/600/600"];
 
