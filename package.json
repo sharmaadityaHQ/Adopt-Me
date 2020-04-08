@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clear-build-cache": "rm -rf .cache/ dist/",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev",
     "dev": "parcel src/index.html",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
@@ -39,6 +40,8 @@
     "prettier": "^1.19.1"
   },
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@emotion/core": "^10.0.28",
     "@frontendmasters/pet": "^1.0.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
