@@ -16,8 +16,8 @@
     "url": "git+https://github.com/sharmaaditya570191/Adopt-Me.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Aditya Sharma",
+  "license": "",
   "bugs": {
     "url": "https://github.com/sharmaaditya570191/Adopt-Me/issues"
   },
@@ -46,8 +46,5 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions"
-  ]
+  "browserslist": ["last 2 Chrome versions", "last 2 Firefox versions"]
 }
