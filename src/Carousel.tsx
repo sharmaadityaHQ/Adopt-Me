@@ -1,7 +1,17 @@
 import React from "react";
+import { Photo } from "@frontendmasters/pet";
 
-class Carousel extends React.Component {
-  state = {
+interface IProps {
+  media: Photo[];
+}
+
+interface IState {
+  active: number;
+  photos: string[];
+}
+
+class Carousel extends React.Component<IProps, IState> {
+  public state = {
     photos: [],
     active: 0
   };
@@ -10,8 +20,7 @@ class Carousel extends React.Component {
   // passes them on to the component.Is invoked right before calling the
   //  render method, both on the initial mount and on subsequent updates.
   //  It should return an object to update the state, or null to update nothing.
-  // It is invoked right before calling the render method, both on the initial mount and on subsequent updates.
-  static getDerivedStateFromProps({ media }) {
+  public static getDerivedStateFromProps({ media }: IProps) {
     let photos = ["http://placecorgi.com/600/600"];
 
     if (media.length) {
@@ -21,14 +30,19 @@ class Carousel extends React.Component {
     return { photos }; // return whatever object is to be merged into state
   }
 
-  handleIndexClick = event => {
-    //arrow function is used so that no new context is created
-    this.setState({
-      active: +event.target.dataset.index
-    });
+  public handleIndexClick = (event: React.MouseEvent<HTMLElement>) => {
+    // arrow function is used so that no new context is created
+    if (!(event.target instanceof HTMLElement)) {
+      return;
+    }
+    if (event.target.dataset.index) {
+      this.setState({
+        active: +event.target.dataset.index
+      });
+    }
   };
 
-  render() {
+  public render() {
     const { photos, active } = this.state;
 
     return (

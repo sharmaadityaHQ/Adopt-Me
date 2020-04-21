@@ -4,6 +4,7 @@ import Details from './Details'
 import { Router } from '@reach/router'
 import ThemeContext from './ThemeContext'
 import NavBar from './NavBar'
+import { render } from 'react-dom'
 
 const App = () => {
   const themeHook = useState('darkblue')
@@ -20,4 +21,4 @@ const App = () => {
   )
 }
 
-export default App
+render(<App />, document.getElementById('root'))
