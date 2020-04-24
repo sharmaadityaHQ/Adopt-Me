@@ -1,73 +1,83 @@
-import React, { useState, useEffect, useContext } from "react";
-import pet, { ANIMALS } from "@frontendmasters/pet";
-import useDropdown from "./useDropdown";
-import Results from "./Results";
-import ThemeContext from "./ThemeContext";
+import React, { useState, useEffect, useContext } from 'react'
+import pet, { ANIMALS } from '@frontendmasters/pet'
+import useDropdown from './useDropdown'
+import { connect } from 'react-redux'
+import Results from './Results'
+import changeTheme from './actionCreators/changeTheme'
+import changeLocation from './actionCreators/changeLocation'
 
-const SearchParams = () => {
-  const [location, setLocation] = useState("Seattle, WA");
-  const [breeds, setBreeds] = useState([]);
-  const [animal, AnimalDropdown] = useDropdown("Animal", "dog", ANIMALS);
-  const [breed, BreedDropdown, setBreed] = useDropdown("Breed", "", breeds);
-  const [pets, setPets] = useState([]);
-  const [theme, setTheme] = useContext(ThemeContext);
+const SearchParams = props => {
+  const [breeds, setBreeds] = useState([])
+  const [animal, AnimalDropdown] = useDropdown('Animal', 'dog', ANIMALS)
+  const [breed, BreedDropdown, setBreed] = useDropdown('Breed', '', breeds)
+  const [pets, setPets] = useState([])
 
-  async function requestPets() {
+  async function requestPets () {
     const { animals } = await pet.animals({
-      location,
+      location: props.location,
       breed,
       type: animal
-    });
-    setPets(animals || []);
+    })
+    setPets(animals || [])
   }
 
   useEffect(() => {
-    setBreeds([]);
-    setBreed("");
+    setBreeds([])
+    setBreed('')
 
     pet.breeds(animal).then(({ breeds }) => {
-      const breedStrings = breeds.map(({ name }) => name);
-      setBreeds(breedStrings);
-    }, console.error);
-  }, [animal, setBreeds, setBreed]); //dependency array is second argument for useEffect
+      const breedStrings = breeds.map(({ name }) => name)
+      setBreeds(breedStrings)
+    }, console.error)
+  }, [animal, setBreeds, setBreed]) //dependency array is second argument for useEffect
 
   return (
-    <div className="search-params">
+    <div className='search-params'>
       <form
         onSubmit={e => {
-          e.preventDefault();
-          requestPets();
+          e.preventDefault()
+          requestPets()
         }}
       >
-        <label htmlFor="location">
+        <label htmlFor='location'>
           Location
           <input
-            id="location"
-            value={location}
-            placeholder="Location"
-            onChange={e => setLocation(e.target.value)}
+            id='location'
+            value={props.location}
+            placeholder='Location'
+            onChange={e => props.setLocation(e.target.value)}
           />
         </label>
         <AnimalDropdown />
         <BreedDropdown />
-        <label htmlFor="theme">
+        <label htmlFor='theme'>
           Theme
           <select
-            value={theme}
-            onChange={e => setTheme(e.target.value)}
-            onBlur={e => setTheme(e.target.value)}
+            value={props.theme}
+            onChange={e => props.setTheme(e.target.value)}
+            onBlur={e => props.setTheme(e.target.value)}
           >
-            <option value="peru">Peru</option>
-            <option value="darkblue">Dark Blue</option>
-            <option value="mediumorchid">Medium Orchid</option>
-            <option value="chartreuse">Chartreuse</option>
+            <option value='peru'>Peru</option>
+            <option value='darkblue'>Dark Blue</option>
+            <option value='mediumorchid'>Medium Orchid</option>
+            <option value='chartreuse'>Chartreuse</option>
           </select>
         </label>
-        <button style={{ backgroundColor: theme }}>Submit</button>
+        <button style={{ backgroundColor: props.theme }}>Submit</button>
       </form>
       <Results pets={pets} />
     </div>
-  );
-};
+  )
+}
 
-export default SearchParams;
+const mapStateToProps = ({ theme, location }) => ({
+  theme,
+  location
+})
+
+const mapDispatchToProps = dispatch => ({
+  setTheme: theme => dispatch(changeTheme(theme)),
+  setLocation: location => dispatch(changeLocation(location))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchParams)
